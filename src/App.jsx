@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import Header from './components/Header'
-import Dashboard from './pages/dashboard'
+import Dashboard from './pages/Dashboard.jsx'
 import axios from 'axios'
 import { ProductContext } from './context/ProductsProvider'
 import { Routes, Route } from 'react-router-dom'
@@ -13,6 +13,7 @@ import MainLayout from './components/MainLayout'
 import Products from './pages/Products'
 import Admin from './pages/Admin'
 import SearchPage from './pages/SearchPage'
+
 function App() {
 
   const { products, setProducts } = useContext(ProductContext)
