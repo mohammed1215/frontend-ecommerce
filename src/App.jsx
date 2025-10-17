@@ -26,7 +26,7 @@ function App() {
     const signal = controller.signal;
 
     async function fetchAllData() {
-      const { data: products } = await axios.get(`http://localhost:5000/products`, { signal });
+      const { data: products } = await axios.get(`${import.meta.env.VITE_API_URL}/products`, { signal });
 
       setProducts(products)
     }

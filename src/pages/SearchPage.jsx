@@ -16,7 +16,7 @@ const SearchPage = () => {
 
     const controller = new AbortController();
 
-    axios.post('http://localhost:5000/products/search', {
+    axios.post(`${import.meta.env.VITE_API_URL}/products/search`, {
       title
     }, { signal: controller.signal }).then(res => {
       setSearchResult(res.data?.searchResult)

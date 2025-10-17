@@ -43,7 +43,7 @@ const Products = () => {
   const [page, setPage] = useState(1)
   const limit = 10
 
-  const [url, setUrl] = useState(`http://localhost:5000/products?page=${page}&limit=${limit}`)
+  const [url, setUrl] = useState(`${import.meta.env.VITE_API_URL}/products?page=${page}&limit=${limit}`)
 
   async function getAllProducts() {
     const { data } = await axios.get(url)
@@ -67,7 +67,7 @@ const Products = () => {
       category
     })
 
-    let updatedUrl = `http://localhost:5000/products?${params}`;
+    let updatedUrl = `${import.meta.env.VITE_API_URL}/products?${params}`;
     setUrl(updatedUrl)
   }
 

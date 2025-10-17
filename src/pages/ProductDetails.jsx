@@ -15,7 +15,7 @@ const ProductDetails = () => {
   useEffect(() => {
 
     async function getReviews() {
-      const { data } = await axios.get(`http://localhost:5000/reviews/${productId}`);
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/reviews/${productId}`);
       setComments(data.data);
     }
     getReviews()

@@ -42,7 +42,7 @@ const Reviews = ({ comments, setComments, product }) => {
       })
     }
 
-    const { data } = await axios.post(`http://localhost:5000/reviews/${product._id}`, {
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/reviews/${product._id}`, {
       comment,
       rating
     }, {

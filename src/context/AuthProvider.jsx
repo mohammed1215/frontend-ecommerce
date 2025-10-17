@@ -13,7 +13,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
 
     // if there is a cookie then good send request to the server to get the data of the user and 
-    axios.get('http://localhost:5000/auth/me', {
+    axios.get(`${import.meta.env.VITE_API_URL}/auth/me`, {
       withCredentials: true
     })
       .then(res => setUser(res.data?.user))

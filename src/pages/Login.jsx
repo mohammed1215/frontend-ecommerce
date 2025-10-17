@@ -12,7 +12,7 @@ const Login = () => {
   const navigate = useNavigate()
   async function handleLogin(e) {
     e.preventDefault();
-    const { data } = await axios.post(`http://localhost:5000/auth/login`, {
+    const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
       email,
       password
     }, {
