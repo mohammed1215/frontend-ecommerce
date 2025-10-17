@@ -1,0 +1,61 @@
+import { useContext, useEffect, useState } from 'react'
+import Header from './components/Header'
+import Dashboard from './pages/dashboard'
+import axios from 'axios'
+import { ProductContext } from './context/ProductsProvider'
+import { Routes, Route } from 'react-router-dom'
+import ProductDetails from './pages/ProductDetails'
+import Cart from './pages/Cart'
+import ProtectedRoute from './components/ProtectedRoute'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import MainLayout from './components/MainLayout'
+import Products from './pages/Products'
+import Admin from './pages/Admin'
+import SearchPage from './pages/SearchPage'
+function App() {
+
+  const { products, setProducts } = useContext(ProductContext)
+
+
+
+  useEffect(() => {
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    async function fetchAllData() {
+      const { data: products } = await axios.get(`http://localhost:5000/products`, { signal });
+
+      setProducts(products)
+    }
+    fetchAllData()
+
+    return () => {
+      // controller.abort()
+    }
+  }, [])
+
+
+  return (
+    <>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
+
+        <Route element={<MainLayout />}>
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/products' element={<Products />} />
+          <Route path='/products/:productId' element={<ProductDetails />} />
+          <Route path='/search' element={<SearchPage />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path='/admin' element={<Admin />} />
+          </Route>
+          <Route path='/cart' element={<Cart />} />
+        </Route>
+      </Routes>
+    </>
+  )
+}
+
+export default App
