@@ -25,6 +25,7 @@ const Signup = () => {
     formData.append('password', password)
     formData.append('image', selectedImage)
     formData.append('role', role)
+    console.log(import.meta.env.VITE_API_URL)
     const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, formData, {
       withCredentials: true
     });

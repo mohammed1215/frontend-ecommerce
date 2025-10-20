@@ -18,7 +18,7 @@ const Dashboard = () => {
         <hr className='border-gray-300 ' />
       </div>
       <Section title={'top selling'} />
-      <div className='px-5 md:px-0 py-5'>
+      <div className='px-5 mx-auto container py-5'>
         <DressStyle />
       </div>
 

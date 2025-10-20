@@ -5,7 +5,7 @@ import GymImg from '../images/image 14.png'
 
 const DressStyle = () => {
   return (
-    <div className='container mx-auto px-10 bg-gray-200 rounded-3xl py-12'>
+    <div className=' mx-auto px-10 bg-gray-200 rounded-3xl py-12'>
       <h2 className="text-center">BROWSE BY DRESS STYLE</h2>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
         <div className='relative h-68 bg-white rounded-2xl w-full'>

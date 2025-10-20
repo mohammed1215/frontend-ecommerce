@@ -1,9 +1,9 @@
 import heroImg from '../../images/Rectangle 2.png'
 const Hero = () => {
   return (
-    <div className="container mx-auto  py-10 flex-col md:flex-row flex w-full min-h-[calc(100vh_-_80px)]">
-      <div className="flex flex-col max-w-[700px] gap-6 mt-auto mb-auto md:gap-3">
-        <h1 className="text-3xl md:text-6xl tracking-wide line font-bold second-font">FIND CLOTHES THAT MATCHES YOUR STYLE</h1>
+    <div className="container mx-auto px-16 py-10 flex-col lg:flex-row flex min-h-[calc(100vh_-_80px)]">
+      <div className="flex text-center md:text-start flex-col max-w-[700px] gap-6 mt-auto mb-auto md:gap-3">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wide line font-bold second-font">FIND CLOTHES THAT MATCHES YOUR STYLE</h1>
         <p className="text-sm">Browse through our diverse range of meticulously crafted garments, designed to bring out your individuality and cater to your sense of style</p>
         <button className="bg-black w-full  hover:bg-gray-500 transition rounded-full text-white py-2 md:w-[200px] cursor-pointer">Shop Now</button>
 

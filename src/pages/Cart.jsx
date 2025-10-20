@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../context/CartProvider'
-
+import axios from 'axios'
 const Cart = () => {
   const { cart, setCart } = useContext(CartContext)
   const [subtotal, setSubtotal] = useState(0)
-
+  const [loading, setLoading] = useState(false)
   function deleteProduct(product) {
     const products = cart.filter(p => p._id !== product._id)
     setCart(products)
@@ -30,6 +30,25 @@ const Cart = () => {
   useEffect(() => {
     setSubtotal(cart.reduce((sum, item) => sum += (parseFloat(item.price) * parseInt(item.quantity)), 0))
   }, [cart])
+
+  async function handleCheckout() {
+    setLoading(true);
+    try {
+
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/orders/create-order`, {
+        total: parseInt(subtotal) + 15,
+        cart
+      }, {
+        withCredentials: true
+      })
+
+      window.location.href = data?.approveLink?.href
+    } catch (error) {
+      console.log(error)
+    }
+    setLoading(false)
+
+  }
 
   return (
     <div className='container mx-auto'>
@@ -59,7 +78,7 @@ const Cart = () => {
                 <span className='block'>Size: {item?.selectedSize?.size}</span>
                 <span className='block'>Color: {item?.selectedColor?.name}</span>
                 <div className='flex justify-between items-center mt-4'>
-                  <span className='font-bold text-2xl'>$155</span>
+                  <span className='font-bold text-2xl'>${item?.price}</span>
                   <div className='relative  rounded-full py-2 border-gray-600 border-2 w-52'>
                     <input min={1} onChange={(e) => handleQuantity(e, item)} type="number" name='quantity' id='quantity' value={item?.quantity || 1} className='h-full w-full outline-0 text-center appearance-none [-moz-appearance:_textfield] [-webkit-appearance:none] ' />
                     <span onClick={() => handleUpDown('up', item)} className='absolute select-none cursor-pointer right-5 top-[50%] -translate-y-1/2 active:bg-slate-400 rounded-full size-8 content-center text-center transition hover:bg-slate-300 duration-100'><i className='fas fa-plus'></i></span>
@@ -94,7 +113,14 @@ const Cart = () => {
             <span className='font-semibold text-lg'>Total</span>
             <span>${subtotal + 15}</span>
           </div>
-          <button className='cursor-pointer rounded-full py-3 bg-black text-white w-full'>Go to Checkout <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+          <button
+            disabled={loading}
+            onClick={handleCheckout}
+            className='cursor-pointer disabled:bg-gray-600 rounded-full py-3 bg-black text-white w-full'
+          >
+            Go to Checkout
+            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
     </div>

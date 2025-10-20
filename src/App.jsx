@@ -13,6 +13,8 @@ import MainLayout from './components/MainLayout'
 import Products from './pages/Products'
 import Admin from './pages/Admin'
 import SearchPage from './pages/SearchPage'
+import SuccessPage from './pages/SuccessPage.jsx'
+import OrdersPage from './pages/OrdersPage.jsx'
 
 function App() {
 
@@ -49,6 +51,8 @@ function App() {
           <Route path='/products' element={<Products />} />
           <Route path='/products/:productId' element={<ProductDetails />} />
           <Route path='/search' element={<SearchPage />} />
+          <Route path='/orders/success' element={<SuccessPage />} />
+          <Route path='/account/orders' element={<OrdersPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path='/admin' element={<Admin />} />
           </Route>
