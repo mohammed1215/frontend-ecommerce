@@ -9,7 +9,7 @@ const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [selectedImage, setSelectedImage] = useState(null)
-  const [role, setRole] = useState()
+  const [role, setRole] = useState('USER')
   const { user, login } = useAuth()
   const navigate = useNavigate()
   /**
@@ -51,7 +51,7 @@ const Signup = () => {
         </div>
         <div className='flex flex-col gap-2'>
           <label htmlFor="" className='font-semibold text-lg'>role</label>
-          <select defaultValue={'USER'} value={role} onChange={(e) => setRole(e.target.value)} className='p-4 border-2 border-slate-500 focus:ring-4 transition duration-300 ring-slate-700 rounded-xl ' >
+          <select value={role} onChange={(e) => setRole(e.target.value)} className='p-4 border-2 border-slate-500 focus:ring-4 transition duration-300 ring-slate-700 rounded-xl ' >
             <option value="USER">User</option>
             <option value="MERCHANT">Merchant</option>
           </select>
