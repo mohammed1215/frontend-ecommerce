@@ -22,7 +22,11 @@ const Login = () => {
       withCredentials: true
     });
     login(data.user)
-    navigate('/')
+    if (data?.user.role === "MERCHANT") {
+      return navigate('/dashboard')
+    } else {
+      navigate('/')
+    }
   }
 
   return (

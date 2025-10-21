@@ -15,6 +15,7 @@ import Admin from './pages/Admin'
 import SearchPage from './pages/SearchPage'
 import SuccessPage from './pages/SuccessPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
+import AccountPage from './pages/AccountPage.jsx'
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
 
+        <Route path='/dashboard' element={<AccountPage />} />
         <Route element={<MainLayout />}>
           <Route path='/' element={<Dashboard />} />
           <Route path='/products' element={<Products />} />

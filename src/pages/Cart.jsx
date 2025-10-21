@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../context/CartProvider'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 const Cart = () => {
   const { cart, setCart } = useContext(CartContext)
   const [subtotal, setSubtotal] = useState(0)
@@ -34,7 +35,13 @@ const Cart = () => {
   async function handleCheckout() {
     setLoading(true);
     try {
-
+      if (cart.length === 0) {
+        return toast("Cart must not be empty", {
+          style: {
+            color: "red"
+          }
+        })
+      }
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/orders/create-order`, {
         total: parseInt(subtotal) + 15,
         cart
