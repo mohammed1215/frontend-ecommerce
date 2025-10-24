@@ -61,9 +61,9 @@ const AccountPage = () => {
   const [price, setPrice] = useState(0)
   const [selectedSizes, setSelectedSizes] = useState([])
   const [selectedColors, setSelectedColors] = useState([])
-  const [image, setImage] = useState(null)
+  const [images, setImages] = useState(null)
   const [category, setCategory] = useState('')
-  const [preview, setPreview] = useState()
+  const [preview, setPreview] = useState([])
   const { user, logout } = useAuth()
   const formRef = useRef()
 
@@ -90,12 +90,17 @@ const AccountPage = () => {
     }
   }
   const handleFile = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const previewUrl = URL.createObjectURL(file)
-      setImage(file)
-      console.log(previewUrl)
-      setPreview(previewUrl)
+    const files = e.target.files;
+    console.log(files)
+    let previewURLs = []
+    if (e.target?.files?.length > 0) {
+      for (const file of files) {
+        previewURLs.push(URL.createObjectURL(file));
+      }
+
+      setImages(e.target.files)
+      console.log(previewURLs)
+      setPreview(previewURLs)
     }
   }
 
@@ -106,7 +111,7 @@ const AccountPage = () => {
     formData.append('sizes', JSON.stringify(selectedSizes))
     formData.append('colors', JSON.stringify(selectedColors))
     formData.append('stock', stock)
-    formData.append('image', image)
+    formData.append('images', images)
     const { status } = await axios.post(`${import.meta.env.VITE_API_URL}/products`,
       formData
       , {
@@ -122,7 +127,7 @@ const AccountPage = () => {
   }
   return (
     <div className='flex min-h-screen'>
-      <aside className={`  ${openPanel ? "translate-x-0" : "-translate-x-full"} w-full flex-1 flex h-screen md:h-auto fixed md:static md:-translate-x-0 left-0 top-0 transition md:flex p-3 bg-[#1A1C1E] flex-col text-[#969696] rounded-l-md`}>
+      <aside className={`  ${openPanel ? "translate-x-0" : "-translate-x-full"} w-full flex-1 flex  md:h-auto fixed h-full md:static md:-translate-x-0 left-0 top-0 transition md:flex p-3 bg-[#1A1C1E] flex-col text-[#969696] rounded-l-md`}>
         <div className='flex items-center mb-4  text-white justify-between'>
           <h2 className=' '>Logo  </h2>
           <button className='cursor-pointer md:hidden' onClick={() => setOpenPanel(false)}>
@@ -149,11 +154,11 @@ const AccountPage = () => {
           </div>
         </div>
       </aside>
-      <div className='md:hidden p-4 cursor-pointer bg-gray-100' onClick={() => setOpenPanel(true)}>
+      <div className='md:hidden p-4 cursor-pointer bg-gray-100 dark:text-gray-50 dark:bg-[#1d2024]' onClick={() => setOpenPanel(true)}>
         <i className='fa-solid fa-bars '></i>
       </div>
 
-      <section className='flex-3 bg-gray-100 p-3 dark:text-white text-[#1A1C1E] rounded-r-md'>
+      <section className='flex-3 bg-gray-100 p-3 dark:text-white dark:bg-[#1A1C1E] text-[#1A1C1E] rounded-r-md'>
         <div className='justify-between p-3 items-center flex'>
           <h2 className='font-bold text-xl'>Create New Product</h2>
           <div className="icons flex gap-4">
@@ -163,7 +168,7 @@ const AccountPage = () => {
           </div>
         </div>
 
-        <section className='flex gap-4 '>
+        <section className='flex gap-4 flex-col lg:flex-row'>
           <section className='flex-1 dark:bg-[#242d36] bg-white p-5  rounded-lg'>
             <h3 className='font-bold text-lg'>General Information</h3>
 
@@ -176,8 +181,8 @@ const AccountPage = () => {
 
                 <div className="">
                   <label for="categories" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-                  <select name='category' id="categories" value={category} onChange={(e) => setCategory(e.target.value)} className="bg-gray-50 border  border-gray-300 !text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Choose a country</option>
+                  <select name='category' id="categories" value={category} onChange={(e) => setCategory(e.target.value)} className="bg-gray-50 border   border-gray-300 !text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:!text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option selected>Choose a Category</option>
                     <option value="Jeans">Jeans</option>
                     <option value="Hoodies">Hoodies</option>
                     <option value="T-Shirts">T-Shirts</option>
@@ -239,18 +244,24 @@ const AccountPage = () => {
             </form>
 
           </section>
-          <section className='w-1/3 bg-white p-5 dark:bg-[#242d36] rounded-lg'>
-            <span className='mb-4 block font-semibold'>Upload Image</span>
+          <section className='lg:w-1/3 bg-white p-5 dark:bg-[#242d36] rounded-lg'>
+            <span className='mb-4 block font-semibold'>Upload Images</span>
             <div className="flex mb-4 items-center justify-center w-full">
               <label for="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 ">
 
                 {
-                  preview ?
-                    (
-                      <div>
-                        <img src={preview} alt="" />
-                      </div>
-                    )
+                  preview.length > 0 ?
+                    <div className='grid grid-cols-3 gap-2'>
+                      {
+                        preview.map(image =>
+                        (
+                          <div className=''>
+                            <img src={image} alt="" className='w-full object-cover' />
+                          </div>
+                        )
+                        )
+                      }
+                    </div>
                     : (
                       <div className="flex flex-col items-center justify-center pt-5 pb-6">
                         <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -261,7 +272,7 @@ const AccountPage = () => {
                       </div>
                     )
                 }
-                <input accept='image/*' size={1024} onChange={handleFile} id="dropzone-file" type="file" className="hidden" />
+                <input accept='image/*' multiple size={1024} onChange={handleFile} id="dropzone-file" type="file" className="hidden" />
               </label>
             </div>
             <div>

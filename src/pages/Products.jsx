@@ -81,7 +81,7 @@ const Products = () => {
 
 
   return (
-    <div className="container mx-auto flex gap-4 min-h-[calc(100vh_-_83.2px)] p-2">
+    <div className="container mx-auto flex flex-col sm:flex-row gap-4 min-h-[calc(100vh_-_83.2px)] p-2">
       {/* filters */}
       <div className="rounded-lg p-3 flex-1 max-h-full border-gray-200 border-2 overflow-auto">
         <div className="flex justify-between border-b border-gray-200">

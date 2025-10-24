@@ -1,9 +1,8 @@
-import React from 'react'
 
 const Action = () => {
   return (
     <div className='container flex-col md:flex-row gap-10 mx-auto rounded-2xl bg-black p-8 flex justify-between items-center'>
-      <h2 className='second-font text-3xl w-[500px] text-white'>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
+      <h2 className='second-font text-center md:text-start text-lg md:text-3xl md:w-[500px] text-white'>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
       <form className='text-gray-500 flex flex-col gap-3 flex-1 w-full md:max-w-[350px]'>
         <div className='bg-white px-4 py-2 rounded-full flex gap-2 items-center'>
           <i className="fa fa-envelope"></i>

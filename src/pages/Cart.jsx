@@ -9,6 +9,11 @@ const Cart = () => {
   function deleteProduct(product) {
     const products = cart.filter(p => p._id !== product._id)
     setCart(products)
+    toast('product deleted from cart successfully', {
+      style: {
+        color: 'green'
+      }
+    })
   }
 
   function handleQuantity(e, product) {
@@ -33,7 +38,7 @@ const Cart = () => {
   }, [cart])
 
   async function handleCheckout() {
-    setLoading(true);
+
     try {
       if (cart.length === 0) {
         return toast("Cart must not be empty", {
@@ -42,6 +47,7 @@ const Cart = () => {
           }
         })
       }
+      setLoading(true);
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/orders/create-order`, {
         total: parseInt(subtotal) + 15,
         cart
@@ -58,11 +64,11 @@ const Cart = () => {
   }
 
   return (
-    <div className='container mx-auto'>
+    <div className='container px-5 mx-auto'>
       <h2 className='second-font text-3xl'>Your Cart</h2>
 
       {/* Cart Products */}
-      <div className='flex gap-5'>
+      <div className='flex gap-5 flex-col md:flex-row'>
         {/* Products */}
         <div className={`flex-2 p-7 rounded-xl border-2`}>
           {cart.length === 0 &&
@@ -84,9 +90,9 @@ const Cart = () => {
                 <h3 className='font-bold text-2xl'>{item?.title}</h3>
                 <span className='block'>Size: {item?.selectedSize?.size}</span>
                 <span className='block'>Color: {item?.selectedColor?.name}</span>
-                <div className='flex justify-between items-center mt-4'>
+                <div className='flex justify-between md:items-center mt-4 flex-col sm:flex-row'>
                   <span className='font-bold text-2xl'>${item?.price}</span>
-                  <div className='relative  rounded-full py-2 border-gray-600 border-2 w-52'>
+                  <div className='relative  rounded-full py-2 border-gray-600 border-2 max-w-52'>
                     <input min={1} onChange={(e) => handleQuantity(e, item)} type="number" name='quantity' id='quantity' value={item?.quantity || 1} className='h-full w-full outline-0 text-center appearance-none [-moz-appearance:_textfield] [-webkit-appearance:none] ' />
                     <span onClick={() => handleUpDown('up', item)} className='absolute select-none cursor-pointer right-5 top-[50%] -translate-y-1/2 active:bg-slate-400 rounded-full size-8 content-center text-center transition hover:bg-slate-300 duration-100'><i className='fas fa-plus'></i></span>
                     <span onClick={() => handleUpDown('down', item)} className='absolute select-none cursor-pointer left-5 top-[50%] -translate-y-1/2 active:bg-slate-400 rounded-full size-8 content-center text-center transition hover:bg-slate-300 duration-100'><i className='fas fa-minus'></i></span>
@@ -98,7 +104,7 @@ const Cart = () => {
           ))}
         </div>
         {/* Summary */}
-        <div className={`flex-1 self-start rounded-xl flex flex-col gap-2 border-2 p-5`}>
+        <div className={`flex-1 md:self-start rounded-xl flex flex-col gap-2 border-2 p-5`}>
           {/* title */}
           <h2 className='font-bold text-xl'>Order Summery</h2>
           {/* totals */}

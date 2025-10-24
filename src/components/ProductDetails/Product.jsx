@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../../context/CartProvider'
-
+import { useAuth } from '../../context/AuthProvider'
+import toast from 'react-hot-toast'
 const Product = ({ product }) => {
 
   //Context
   const { cart, setCart } = useContext(CartContext)
-
+  const { user } = useAuth()
   const [activeColor, setActiveColor] = useState(null)
   const [activeSize, setActiveSize] = useState(null)
 
@@ -31,7 +32,32 @@ const Product = ({ product }) => {
   }
 
   function handleAddProduct() {
+    if (!user) {
+      toast('you have to log in', {
+        style: {
+          color: "red"
+        }
+      })
+      return
+    }
 
+    if (!activeColor) {
+      toast('you have to choose a COLOR', {
+        style: {
+          color: "red"
+        }
+      })
+      return
+    }
+
+    if (!activeSize) {
+      toast('you have to choose a SIZE', {
+        style: {
+          color: "red"
+        }
+      })
+      return
+    }
     let cartItems = [...cart]
     const productIndex = cartItems.findIndex(item => item._id === product._id);
 
@@ -47,6 +73,12 @@ const Product = ({ product }) => {
       cartItems.splice(productIndex, 1, newItem)
     }
     setCart(prev => cartItems)
+    toast('item has been added to cart', {
+      style: {
+        color: "green"
+      }
+    })
+
   }
 
   useEffect(() => {
