@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { useAuth } from '../context/AuthProvider'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 
 const sizes = [{
@@ -36,22 +36,8 @@ const colors = [
   {
     hex: "#ffff00",
     color: "yellow"
-  },
-  {
-    hex: "",
   }
 ]
-/**
-  //title,
-  //description,
-  //price,
-  //category,
-  //colors,
-  //stock,
-  imgPath: result.secure_url,
- // sizes,
-  userId: req.user._id
- */
 const AccountPage = () => {
   const [openPanel, setOpenPanel] = useState(false)
   const [activeDiscount, setActiveDiscount] = useState(1)
@@ -64,6 +50,7 @@ const AccountPage = () => {
   const [images, setImages] = useState(null)
   const [category, setCategory] = useState('')
   const [preview, setPreview] = useState([])
+  const [errors, setErrors] = useState({})
   const { user, logout } = useAuth()
   const formRef = useRef()
 
@@ -111,18 +98,31 @@ const AccountPage = () => {
     formData.append('sizes', JSON.stringify(selectedSizes))
     formData.append('colors', JSON.stringify(selectedColors))
     formData.append('stock', stock)
-    formData.append('images', images)
-    const { status } = await axios.post(`${import.meta.env.VITE_API_URL}/products`,
-      formData
-      , {
-        withCredentials: true
-      })
-    if (status === 201) {
-      toast('product updated successfully', {
-        style: {
-          color: "green"
+    for (const file of images) {
+      formData.append('images', file)
+    }
+    // formData.append('images', images)
+    console.log(formData.get('images'))
+    try {
+
+      const { status } = await axios.post(`${import.meta.env.VITE_API_URL}/products`,
+        formData
+        , {
+          withCredentials: true
+        })
+      if (status === 201) {
+        toast('product updated successfully', {
+          style: {
+            color: "green"
+          }
+        })
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.status === 400) {
+          setErrors(error.response.data.errors)
         }
-      })
+      }
     }
   }
   return (
@@ -134,7 +134,6 @@ const AccountPage = () => {
             <i className='fa-solid fa-x'></i>
           </button>
         </div>
-
         <ul className='flex flex-col'>
           <li className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa fa-tachometer"></i> Dashboard</li>
           <li className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa fa-cog" aria-hidden="true"></i> Settings</li>
@@ -177,6 +176,8 @@ const AccountPage = () => {
                 <div>
                   <label htmlFor="product-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
                   <input name='title' value={title} onChange={(e) => setTitle(e.target.value)} type="text" id="product-name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Jeans" required />
+                  <p className='text-red-500'>{errors.title?.msg}</p>
+
                 </div>
 
                 <div className="">
@@ -188,12 +189,14 @@ const AccountPage = () => {
                     <option value="T-Shirts">T-Shirts</option>
                     <option value="Shirts">Shirts</option>
                   </select>
+                  <p className='text-red-500'>{errors.category?.msg}</p>
                 </div>
 
               </div>
               <div className='mb-6'>
                 <label htmlFor="last_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                 <textarea name='description' value={description} onChange={(e) => setDescription(e.target.value)} type="text" id="last_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description Of Product" required />
+                <p className='text-red-500'>{errors.description?.msg}</p>
               </div>
               <div className="grid gap-6 mb-6 md:grid-cols-2">
 
@@ -203,11 +206,13 @@ const AccountPage = () => {
                     <i className='fa-solid fa-dollar text-gray-400'></i>
                     <input name='price' value={price} onChange={(e) => setPrice(e.target.value)} type="number" id="price" className="flex-1   outline-none  " placeholder="15" required />
                   </div>
+                  <p className='text-red-500'>{errors.price?.msg}</p>
                 </div>
                 <div >
                   <label htmlFor="discount" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Discount</label>
                   <div className='bg-white border items-stretch border-gray-300  text-gray-900  text-sm rounded-lg flex  focus:ring-blue-500 focus:border-blue-500  w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
                     <input type="number" name='discount' id="discount" className=" p-2.5 flex-1 outline-none " placeholder="15" required />
+                    <p className='text-red-500'>{errors.discount?.msg}</p>
                     <div className='flex items-center gap-2 rounded-r-lg  bg-gray-100  px-2 py-1'>
                       <span onClick={() => setActiveDiscount(1)} type="button" className={`${activeDiscount === 1 ? '!bg-blue-500' : 'bg-white'}  text-gray-900  border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm cursor-pointer  dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700`}>
                         <i className='fa-solid fa-dollar text-gray-400'></i>
@@ -226,6 +231,7 @@ const AccountPage = () => {
                     <span key={size.size} onClick={() => handleAddingSize(size)} className={`${selectedSizes.includes(size) ? "border-2 border-blue-500 " : "border border-gray-300 dark:border-gray-600"} cursor-pointer bg-gray-50   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}>{size.size}</span>
                   ))}
                 </div>
+                <p className='text-red-500'>{errors.title?.msg}</p>
               </div>
               <div className='mb-6'>
                 <label htmlFor="" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
@@ -236,6 +242,7 @@ const AccountPage = () => {
                     }} onClick={() => handleAddingColor(color)} className={`${selectedColors.includes(color) ? "border-3 border-blue-500 dark:border-amber-400 " : "border border-gray-300 dark:border-gray-600"} cursor-pointer  size-8  text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}></span>
                   ))}
                 </div>
+                <p className='text-red-500'>{errors.title?.msg}</p>
               </div>
 
               <button type="submit" className="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -273,11 +280,13 @@ const AccountPage = () => {
                     )
                 }
                 <input accept='image/*' multiple size={1024} onChange={handleFile} id="dropzone-file" type="file" className="hidden" />
+                <p className='text-red-500'>{errors.image?.msg}</p>
               </label>
             </div>
             <div>
               <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stock</label>
               <input type="number" value={stock} onChange={(e) => setStock(e.target.value)} min={0} id="stock" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="5" required />
+              <p className='text-red-500'>{errors.stock?.msg}</p>
             </div>
           </section>
         </section>

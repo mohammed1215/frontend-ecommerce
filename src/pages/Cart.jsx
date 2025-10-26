@@ -83,7 +83,7 @@ const Cart = () => {
                 <i className="fas fa-trash"></i>
               </div>
               {/* image */}
-              <img src={item?.imgPath} className='size-[150px] rounded-lg bg-gray-200' alt="" />
+              <img src={item?.imgPaths?.[0]} className='size-[150px] rounded-lg bg-gray-200' alt="" />
               {/* details */}
               <div className='flex-1 flex flex-col'>
 

@@ -9,7 +9,7 @@ const Product = ({ product }) => {
   const { user } = useAuth()
   const [activeColor, setActiveColor] = useState(null)
   const [activeSize, setActiveSize] = useState(null)
-
+  const [activeImg, setActiveImg] = useState(product?.imgPaths?.[0])
   const [quantity, setQuantity] = useState(1)
 
 
@@ -90,12 +90,12 @@ const Product = ({ product }) => {
       <div className=' justify-center md:justify-normal grid md:grid-cols-[1fr_2fr] grid-cols-1 grid-rows-2 gap-5 md:w-[200px]  flex-1'>
 
         <div className='grid md:grid-rows-3 md:gap-5 md:grid-cols-1 gap-2 md:row-span-2 grid-cols-3 grid-row-1 md:min-h-100'>
-          <div className='bg-gray-200 w-full rounded-xl'>
-            <img src={product?.imgPath} alt="" />
-          </div>
+          {product?.imgPaths?.map((img, index) => (<div onClick={() => setActiveImg(img)} key={'image-' + index} className='cursor-pointer bg-gray-200 w-full rounded-xl'>
+            <img src={img} alt="" />
+          </div>))}
         </div>
         <div className='bg-[#F3F1F4] rounded-xl mx-auto row-span-3 -order-1 content-center md:order-1 min-h-100 w-80 md:w-[100%]'>
-          <img src={product?.imgPath} className='h-[50%] mx-auto object-cover' alt={product?.title} />
+          <img src={activeImg} className='h-[50%] mx-auto object-cover' alt={product?.title} />
         </div>
       </div>
       {/* The Details */}
