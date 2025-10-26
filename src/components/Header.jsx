@@ -37,7 +37,7 @@ const Header = () => {
             </li>
             <li className='cursor-pointer  w-full'><Link onClick={() => setOpenSideBar(false)} className='w-full text-center block hover:text-black hover:bg-white p-2 md:p-0 ' to={'/products'}>On Sale</Link></li>
             <li className='cursor-pointer  w-full'><Link onClick={() => setOpenSideBar(false)} className='w-full text-center block hover:text-black hover:bg-white p-2 md:p-0 ' to={'/'}>New Arrivals</Link></li>
-            {user?.role === 'MERCHANT' && <li className='cursor-pointer  w-full'><Link onClick={() => setOpenSideBar(false)} className='w-full text-center block hover:text-black hover:bg-white p-2 md:p-0 ' to={'/admin'}>Admin</Link></li>}
+            {user?.role === 'MERCHANT' && <li className='cursor-pointer  w-full'><Link onClick={() => setOpenSideBar(false)} className='w-full text-center block hover:text-black hover:bg-white p-2 md:p-0 ' to={'/dashboard'}>Admin</Link></li>}
             <li className='cursor-pointer  w-full'><Link onClick={() => setOpenSideBar(false)} className='w-full text-center block hover:text-black hover:bg-white p-2 md:p-0 ' to={'/'}>Brands</Link></li>
           </ul>
         </nav>
