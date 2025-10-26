@@ -29,7 +29,7 @@ const Products = () => {
   const [values, setValues] = useState([20, 80])
   const MIN = 0;
   const MAX = 100;
-
+  const [loading, setLoading] = useState(false)
   const [colorOpen, setColorOpen] = useState(false)
   const [activeColor, setActiveColor] = useState(null)
 
@@ -46,7 +46,9 @@ const Products = () => {
   const [url, setUrl] = useState(`${import.meta.env.VITE_API_URL}/products?page=${page}&limit=${limit}`)
 
   async function getAllProducts() {
+    setLoading(true)
     const { data } = await axios.get(url)
+    setLoading(false)
     setData(data)
   }
 
@@ -180,7 +182,11 @@ const Products = () => {
         <button onClick={handleFilters} className="bg-black rounded-xl text-white w-full py-3 mt-4 cursor-pointer">Apply Filters</button>
       </div>
       {/* Products */}
-      <ProductCards currentPage={page} setCurrentPage={setPage} currentProducts={data.data?.length} limit={limit} numberOfProducts={data.productCounts}>
+
+      <ProductCards loading={loading} currentPage={page} setCurrentPage={setPage} currentProducts={data.data?.length} limit={limit} numberOfProducts={data.productCounts}>
+        {data?.data?.length === 0 && (
+          <p>No Clothes Found</p>
+        )}
         {Array.isArray(data?.data) && data?.data.length > 0 && data.data.map(product => (
           <ProductCard key={product._id} product={product} />
         ))}
