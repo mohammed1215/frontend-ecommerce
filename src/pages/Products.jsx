@@ -6,6 +6,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
 import ProductCards from "../components/Products/ProductCards"
 import ProductCard from "../components/Products/ProductCard"
+import { useTitle } from "../customHooks"
 
 const colors = [
   { name: 'green', hex: "#00C12B", border: "#00a524" },
@@ -24,7 +25,7 @@ const sizes = ['S', 'M', 'L', 'XL']
 const categories = ['T-Shirts', 'Shorts', 'Shirts', 'Hoodies', 'Jeans']
 
 const Products = () => {
-
+  useTitle('Products')
   const [priceOpen, setPriceOpen] = useState(false)
   const [values, setValues] = useState([20, 80])
   const MIN = 0;

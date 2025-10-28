@@ -1,11 +1,12 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthProvider'
 import toast from 'react-hot-toast'
+import { useTitle } from '../customHooks'
 
 const Login = () => {
-
+  useTitle('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
@@ -25,7 +26,7 @@ const Login = () => {
       });
       login(data.user)
       if (data?.user.role === "MERCHANT") {
-        return navigate('/dashboard')
+        return navigate('/account/dashboard')
       } else {
         navigate('/')
       }

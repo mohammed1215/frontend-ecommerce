@@ -65,8 +65,8 @@ const Header = () => {
               <div onClick={() => navigate('/cart')} className='cursor-pointer'>
                 <i className="fa-solid fa-cart-shopping "></i>
               </div>
-              <div >
-                <i className="fa-regular fa-user cursor-pointer"></i>
+              <div onClick={() => navigate('/account/profile')}>
+                {user?.imgPath ? <img src={user?.imgPath} className='size-14 cursor-pointer rounded-full bg-[#919191]' alt="" /> : <i className="fa-regular fa-user cursor-pointer"></i>}
               </div>
 
               <button onClick={logout} className="cursor-pointer select-none px-3 py-2 border-2 rounded-lg before:scale-0 relative overflow-hidden before:absolute hover:before:inset-full  hover:before:scale-100 before:content-[''] before:origin-center before:inset-0 before:bg-blue-200 z-10 transition duration-300">

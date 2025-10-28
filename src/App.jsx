@@ -17,10 +17,17 @@ import SuccessPage from './pages/SuccessPage.jsx'
 import OrdersPage from './pages/OrdersPage.jsx'
 import AccountPage from './pages/AccountPage.jsx'
 import ProtectedRouteAuth from './ProtectedRouteAuth.jsx'
+import AccountDetails from './pages/AccountDetails.jsx'
+import { useTitle } from './customHooks.jsx'
+import Info from './components/AccountDetails/Info.jsx'
+import { useAuth } from './context/AuthProvider.jsx'
 
 function App() {
-
+  useTitle()
   const { products, setProducts } = useContext(ProductContext)
+  const { user } = useAuth()
+  const [avatar, setAvatar] = useState(null)
+  const [preview, setPreview] = useState(user?.imgPath)
 
 
 
@@ -49,8 +56,9 @@ function App() {
         <Route path='/signup' element={<Signup />} />
 
         <Route element={<ProtectedRoute />}>
+          <Route path='/account/profile' element={<AccountDetails setAvatar={setAvatar} preview={preview} children={<Info avatar={avatar} setPreview={setPreview} />} />} />
           <Route element={<ProtectedRouteAuth />}>
-            <Route path='/dashboard' element={<AccountPage />} />
+            <Route path='/account/dashboard' element={<AccountPage />} />
           </Route>
         </Route>
         <Route element={<MainLayout />}>

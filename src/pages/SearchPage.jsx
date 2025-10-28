@@ -4,8 +4,10 @@ import { useSearchParams } from "react-router-dom"
 import ProductCards from "../components/Products/ProductCards";
 import ProductCard from "../components/Products/ProductCard";
 import ProductLayout from "../components/Search/ProductLayout";
+import { useTitle } from "../customHooks";
 
 const SearchPage = () => {
+  useTitle('Search')
   const [searchParams, setSearchParams] = useSearchParams()
   const title = searchParams.get('title');
   const [page, setPage] = useState(1)

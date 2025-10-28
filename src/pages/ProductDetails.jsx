@@ -5,8 +5,9 @@ import Card from '../components/Card'
 import Product from '../components/ProductDetails/Product'
 import axios from 'axios'
 import Reviews from '../components/ProductDetails/Reviews'
+import { useTitle } from '../customHooks'
 const ProductDetails = () => {
-
+  useTitle('Product Details')
   const { products } = useContext(ProductContext)
   const [product, setProduct] = useState({})
   const [comments, setComments] = useState([])

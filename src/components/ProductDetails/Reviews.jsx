@@ -82,7 +82,7 @@ const Reviews = ({ comments, setComments, product }) => {
 
       {/* Form */}
 
-      <div className={`fixed overflow-hidden left-0 top-0 justify-center items-center w-full min-h-screen flex bg-[#00000056] ${openReviewForm ? '' : 'hidden'}`}>
+      <div className={`fixed overflow-hidden left-0 top-0 justify-center items-center w-full min-h-screen flex bg-[#00000056] ${openReviewForm ? 'fade-in' : 'hidden'}`}>
         <form onSubmit={handleSubmitReview} className='w-[500px] relative flex flex-col max-h-[500px] mx-auto gap-3 bg-fuchsia-300 rounded-lg p-5'>
           <span className="absolute top-1 right-1 cursor-pointer" onClick={() => setOpenReviewForm(false)}><i className="fas fa-x"></i></span>
           <h1 className='text-3xl font-bold'>Submit Review</h1>

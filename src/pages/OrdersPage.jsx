@@ -1,7 +1,9 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { useTitle } from "../customHooks"
 
 const OrdersPage = () => {
+  useTitle('Orders')
   const [orders, setOrders] = useState([])
   const [payLoading, setPayLoading] = useState(false);
   const handleRetry = async (orderId) => {

@@ -1,8 +1,7 @@
-import React from 'react'
+
 import Hero from '../components/dashboard/Hero'
 import Section from '../components/dashboard/Section'
 import DressStyle from '../components/DressStyle'
-import Action from '../components/dashboard/Action'
 
 const Dashboard = () => {
 

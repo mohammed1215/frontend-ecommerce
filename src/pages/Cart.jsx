@@ -2,7 +2,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { CartContext } from '../context/CartProvider'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { useTitle } from '../customHooks'
 const Cart = () => {
+  useTitle('Cart')
   const { cart, setCart } = useContext(CartContext)
   const [subtotal, setSubtotal] = useState(0)
   const [loading, setLoading] = useState(false)

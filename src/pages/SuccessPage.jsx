@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTitle } from '../customHooks';
 
 const SuccessPage = () => {
+  useTitle('Success')
   const [loading, setLoading] = useState(false);
   const [orderData, setOrderData] = useState({})
   const location = useLocation();

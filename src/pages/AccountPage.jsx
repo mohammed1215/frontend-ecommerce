@@ -1,7 +1,9 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useAuth } from '../context/AuthProvider'
 import axios, { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom'
+import { useTitle } from '../customHooks'
 
 const sizes = [{
   size: "S"
@@ -39,6 +41,7 @@ const colors = [
   }
 ]
 const AccountPage = () => {
+  useTitle('Dashboard')
   const [openPanel, setOpenPanel] = useState(false)
   const [activeDiscount, setActiveDiscount] = useState(1)
   const [title, setTitle] = useState('')
@@ -135,9 +138,10 @@ const AccountPage = () => {
           </button>
         </div>
         <ul className='flex flex-col'>
-          <li className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa fa-tachometer"></i> Dashboard</li>
-          <li className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa fa-cog" aria-hidden="true"></i> Settings</li>
-          <li className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa-solid fa-circle-exclamation"></i> Help & Center</li>
+          <Link to={'/account/profile'} className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa fa-tachometer"></i> Profile</Link>
+          <Link to={'/account/dashboard'} className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa fa-tachometer"></i> Dashboard</Link>
+          <Link to={'/'} className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa fa-cog" aria-hidden="true"></i> Settings</Link>
+          <Link to={'/'} className='p-2 text-sm cursor-pointer rounded-md transition hover:bg-[#2d3032]'> <i className="fa-solid fa-circle-exclamation"></i> Help & Center</Link>
         </ul>
 
         <div className='flex gap-2 mt-auto items-center  justify-self-end'>
