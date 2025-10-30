@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthProvider'
 import axios from 'axios'
 import { useTitle } from '../customHooks'
+import toast from 'react-hot-toast'
 
 
 const Signup = () => {
@@ -36,7 +37,11 @@ const Signup = () => {
       const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, formData, {
         withCredentials: true
       });
-      login(data.user)
+      toast('Verify Your Email', {
+        style: {
+          color: "gray"
+        }
+      })
       setLoading(false)
       navigate('/')
     } catch (error) {
