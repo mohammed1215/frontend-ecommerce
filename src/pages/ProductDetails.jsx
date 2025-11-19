@@ -31,7 +31,7 @@ const ProductDetails = () => {
     if (productId) getReviews()
   }, [productId])
 
-  if (!product.data) {
+  if (!products.data) {
     return <div className="text-center mt-10">Loading product...</div>
   }
 
