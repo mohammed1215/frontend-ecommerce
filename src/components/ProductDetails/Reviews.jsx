@@ -74,7 +74,7 @@ const Reviews = ({ comments, setComments, product }) => {
     setOpenReviewForm(false)
   }
   return (
-    <div className='mx-auto container px-3 md:px-0 py-2.5 mt-5'>
+    <div className='mx-auto container px-3 md:px-10 py-2.5 mt-5'>
       <div className="flex justify-between mb-4">
         <h2>Reviews</h2>
         <button onClick={handleWritingReviewForm} className="cursor-pointer bg-black p-2 text-white rounded-xl hover:scale-105 hover:bg-gray-600 transition duration-300">Write Review</button>

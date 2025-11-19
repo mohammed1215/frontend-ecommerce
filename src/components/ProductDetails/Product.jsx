@@ -91,16 +91,23 @@ const Product = ({ product }) => {
   }, [cart])
 
   return (
-    <div className='flex container mx-auto gap-10 justify-center flex-col md:flex-row px-5'>
-      <div className=' justify-center md:justify-normal grid md:grid-cols-[1fr_2fr] grid-cols-1 grid-rows-2 gap-5 md:w-[200px]  flex-1'>
-
-        <div className='grid md:grid-rows-3 md:gap-5  md:grid-cols-1 gap-2 md:row-span-2 grid-cols-3 grid-row-1 md:min-h-100'>
-          {product?.imgPaths?.map((img, index) => (<div onClick={() => setActiveImg(img)} key={'image-' + index} className='cursor-pointer overflow-hidden bg-gray-200 w-full rounded-xl'>
-            <img className='w-full' src={img} alt="" />
-          </div>))}
+    <div className='flex container md:px-10 mx-auto gap-10 justify-center flex-col md:flex-row px-5'>
+      <div className='grid grid-cols-1 md:grid-cols-[100px_1fr] gap-5 flex-1'>
+        {/* THUMBNAILS */}
+        <div className='flex flex-row md:flex-col gap-3 order-2 md:order-1'>
+          {product?.imgPaths?.map((img, index) => (
+            <div
+              key={'image-' + index}
+              onClick={() => setActiveImg(img)}
+              className='cursor-pointer overflow-hidden bg-gray-200 rounded-xl h-20 md:h-24 w-20 md:w-full'
+            >
+              <img className='w-full h-full object-cover' src={img} alt="" />
+            </div>
+          ))}
         </div>
-        <div className='bg-[#F3F1F4] rounded-xl mx-auto overflow-hidden row-span-3 -order-1 content-center md:order-1 min-h-100 w-80 md:w-[100%]'>
-          <img src={activeImg} className='w-full mx-auto object-cover' alt={product?.title} />
+        {/* MAIN IMAGE */}
+        <div className='bg-[#F3F1F4] rounded-xl overflow-hidden order-1 md:order-2 w-full aspect-square md:h-[500px]'>
+          <img src={activeImg} className='w-full h-full object-contain' alt={product?.title} />
         </div>
       </div>
       {/* The Details */}
