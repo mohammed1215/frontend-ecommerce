@@ -31,6 +31,11 @@ const Login = () => {
         navigate('/')
       }
     } catch (error) {
+      if (error instanceof axios.AxiosError) {
+        if (error.status === 401) {
+          return toast(error.response.data.message)
+        }
+      }
       const errors = error.response.data.errors
 
       setErrors(errors)

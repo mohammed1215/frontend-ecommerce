@@ -9,23 +9,31 @@ import { useTitle } from '../customHooks'
 const ProductDetails = () => {
   useTitle('Product Details')
   const { products } = useContext(ProductContext)
-  const [product, setProduct] = useState({})
+  // const [product, setProduct] = useState({})
   const [comments, setComments] = useState([])
   const { productId } = useParams()
+  const [loadingReviews, setLoadingReviews] = useState(true)
+  const product = products.data?.find(p => p._id === productId)
 
   useEffect(() => {
 
     async function getReviews() {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/reviews/${productId}`);
-      setComments(data.data);
-    }
-    getReviews()
-  }, [])
+      try {
 
-  useEffect(() => {
-    const productFound = products.data?.find(p => p._id === productId)
-    setProduct(productFound)
-  }, [products])
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/reviews/${productId}`);
+        setComments(data.data);
+      } catch (error) {
+        console.error("Failed to fetch reviews", error);
+      } finally {
+        setLoadingReviews(false)
+      }
+    }
+    if (productId) getReviews()
+  }, [productId])
+
+  if (!product.data) {
+    return <div className="text-center mt-10">Loading product...</div>
+  }
 
   return (
     <div>
